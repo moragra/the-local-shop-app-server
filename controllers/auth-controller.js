@@ -1,10 +1,8 @@
 const knex = require('knex')(require('../knexfile'));
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-const fs = require('node:fs')
 
 async function signUp(req, res){
-    console.log('debug')
     const  { name, email, password} = req.body
     const user = await knex('users').where('email', email).first()
     if(user){
@@ -20,7 +18,6 @@ async function signUp(req, res){
 }
 
 async function login(req, res){
-    console.log('debug')
     const {email, password} = req.body
     const user = await knex('users').where('email', email).first()
     if(!user){
@@ -39,28 +36,7 @@ async function login(req, res){
     }
 }
 
-async function profile(req, res, next){
-    const {authorization} = req.headers
-    
-    try {
-        const token = authorization.slice("Bearer ".lenght)
-        jwt.verify(token, process.env.SECRET, async (err, payload) =>{
-            if(err){
-                res.status(401).json({error: 'Failed, not authorized'})
-            } else {
-                const userPwd = await knex('users').where('email', payload.email).first()
-                const {password, ...user} = userPwd
-                req.user = user
-                next()
-            }
-        })
-    } catch (error) {
-        res.status(500).send(error.message)
-    }
-}
-
 module.exports = {
     signUp,
-    login,
-    profile
+    login
 };
