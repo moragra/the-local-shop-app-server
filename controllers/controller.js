@@ -4,15 +4,15 @@ const bcrypt = require('bcryptjs')
 const fs = require('node:fs')
 
 async function signUp(req, res){
-    const  { username, password} = req.body
+    const  { email, password} = req.body
     const users = getUsers()
-    const user = users.find((user) => user.username === username)
+    const user = users.find((user) => user.email === email)
     if(user){
-        return res.status(400).send('User with username already exists!')
+        return res.status(400).send('User with email already exists!')
     }
     try {
         const pwd = bcrypt.hashSync(password)
-        users.push({username, password: pwd})
+        users.push({email, password: pwd})
         fs.writeFileSync('./data/users.json', JSON.stringify(users))
         res.json({sucess: true})
     } catch (error) {
@@ -21,17 +21,17 @@ async function signUp(req, res){
 }
 
 async function login(req, res){
-    const {username, password} = req.body
+    const {email, password} = req.body
     const users = getUsers()
-    const user = users.find((user) => user.username === username)
+    const user = users.find((user) => user.email === email)
     if(!user){
-        return res.status(400).send('Invalid username')
+        return res.status(400).send('Invalid email')
     }
     if(!bcrypt.compareSync(password, user.password)){
         return res.status(400).send('Invalid password')
     }
     try {
-        const token = jwt.sign({username: user.username, name: user.name}, process.env.SECRET)
+        const token = jwt.sign({email: user.email, name: user.name}, process.env.SECRET)
 
         res.json({token})
         
@@ -49,7 +49,7 @@ async function profile(req, res, next){
                 res.status(401).json({error: 'Failed, not authorized'})
             } else {
                 const users = getUsers()
-                const userPwd = users.find((user) => user.username === payload.username)
+                const userPwd = users.find((user) => user.email === payload.email)
                 const {password, ...user} = userPwd
                 req.user = user
                 next()
