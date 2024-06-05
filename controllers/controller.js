@@ -4,7 +4,8 @@ const bcrypt = require('bcryptjs')
 const fs = require('node:fs')
 
 async function signUp(req, res){
-    const  { email, password} = req.body
+    const  { name, email, password} = req.body
+    console.log(req.body)
     const users = getUsers()
     const user = users.find((user) => user.email === email)
     if(user){
@@ -12,7 +13,7 @@ async function signUp(req, res){
     }
     try {
         const pwd = bcrypt.hashSync(password)
-        users.push({email, password: pwd})
+        users.push({name, email, password: pwd})
         fs.writeFileSync('./data/users.json', JSON.stringify(users))
         res.json({sucess: true})
     } catch (error) {
