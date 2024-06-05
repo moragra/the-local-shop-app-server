@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs')
 const fs = require('node:fs')
 
 async function signUp(req, res){
+    console.log('debug')
     const  { name, email, password} = req.body
     const user = await knex('users').where('email', email).first()
     if(user){
@@ -19,6 +20,7 @@ async function signUp(req, res){
 }
 
 async function login(req, res){
+    console.log('debug')
     const {email, password} = req.body
     const user = await knex('users').where('email', email).first()
     if(!user){
