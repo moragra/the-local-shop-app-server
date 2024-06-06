@@ -2,6 +2,7 @@ const knex = require("knex")(require("../knexfile"));
 
 async function postBusiness(req, res) {
   const {
+    user_id,
     shop_name,
     category,
     email,
@@ -17,6 +18,7 @@ async function postBusiness(req, res) {
   } = req.body;
 
   if (
+    !user_id,
     !shop_name ||
     !category ||
     !email ||
