@@ -6,9 +6,9 @@ exports.up = function(knex) {
     return knex.schema.createTable('geos', (table) => {
         table.increments('id').primary();
         table
-          .integer('user_id')
+          .integer('business_id')
           .unsigned()
-          .references('business.user_id')
+          .references('business.id')
           .onUpdate('CASCADE')
           .onDelete('CASCADE')
         table.json('geoData').notNullable()

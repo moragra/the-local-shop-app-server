@@ -13,7 +13,7 @@ async function postGeo(req, res) {
   
   const business_id = business.id
   const data = {business_id , geoData}
-
+  console.log(data)
   try {
     await knex('geos').insert(data)
     res.status(201).json('Posted sucessfully')
