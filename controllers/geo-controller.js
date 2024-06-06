@@ -10,12 +10,9 @@ async function postGeo(req, res) {
   if(!business){
     return res.status(400).send('Invalid business')
   }
-
+  
   const business_id = business.id
-  console.log(business_id)
-  const id = geoData.id
-  console.log(id)
-  const data = { id, business_id , geoData}
+  const data = {business_id , geoData}
 
   try {
     await knex('geos').insert(data)
