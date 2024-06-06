@@ -7,5 +7,7 @@ router.route('/signup').post(auth_controller.signUp)
 router.route('/login').post(auth_controller.login)
 router.route('/profile').get(users_controller.profile, users_controller.profileRes)
 router.route('/business').post(business_controller.postBusiness)
+router.route('/business/:user_id').get(business_controller.getBusiness)
+
 
 module.exports = router

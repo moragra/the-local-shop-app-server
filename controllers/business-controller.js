@@ -60,6 +60,20 @@ async function postBusiness(req, res) {
   }
 }
 
+async function getBusiness(req, res){
+  const {user_id} = req.params
+  const user = await knex('users').where('id', user_id).first()
+  if(!user){
+    return res.status(400).send('Invalid user')
+  }
+  try {
+    const business = await knex('business').where('user_id', user_id).first()
+    res.status(201).json(business)
+  } catch (error) {
+    res.status(500).json("We are sorry, we can't retrieve your business at the moment:", error)
+  }
+}
+
 function emailIsValid(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -71,5 +85,6 @@ function validatePhoneNumber(phoneNumber) {
 }
 
 module.exports = {
-  postBusiness
+  postBusiness,
+  getBusiness
 };
