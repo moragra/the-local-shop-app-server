@@ -12,9 +12,8 @@ function profile(req, res, next){
                 res.status(401).json({error: 'Failed, not authorized'})
             } else {
                 const userPwd = await knex('users').where('email', payload.email).first()
-                const {password, ...user} = userPwd
+                const { password, ...user } = userPwd
                 req.user = user
-                console.log(user)
                 next()
             }
         })

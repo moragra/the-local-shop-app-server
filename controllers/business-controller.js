@@ -35,6 +35,11 @@ async function postBusiness(req, res) {
     res.sendStatus(400);
   }
 
+  const user = await knex('users').where('id', user_id).first()
+  if(!user){
+    return res.status(400).send('Invalid user')
+  }
+
   if (email) {
     if (!emailIsValid(email)) {
       return res.sendStatus(400);
