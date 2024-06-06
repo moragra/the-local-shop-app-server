@@ -11,8 +11,8 @@ router.route('/business')
     .post(business_controller.postBusiness)
     .get(business_controller.getAllBusiness)
 router.route('/business/:user_id').get(business_controller.getBusiness)
-router.route('/geo')
-    .post(geo_controller.postGeo)
-    .get(geo_controller.getAllGeos)
+// router.route('/geo')
+//     .post(geo_controller.postGeo)
+//     .get(geo_controller.getAllGeos)
 
 module.exports = router

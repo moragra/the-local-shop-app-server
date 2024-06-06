@@ -15,7 +15,7 @@ exports.up = function(knex) {
         table.string('category').notNullable()
         table.string('email').notNullable()
         table.string('phone').notNullable()
-        table.string('address').notNullable()
+        table.json('address').notNullable()
         table.string('about').notNullable()
         table.string('website_url').notNullable()
         table.string('ig_url').notNullable()
