@@ -1,11 +1,12 @@
 const knex = require('knex')(require('../knexfile'));
 const jwt = require('jsonwebtoken')
 
-async function profile(req, res, next){
+// const secret = 
+
+function profile(req, res, next){
     const {authorization} = req.headers
-    
     try {
-        const token = authorization.slice("Bearer ".lenght)
+        const token = authorization.slice("Bearer ".length)
         jwt.verify(token, process.env.SECRET, async (err, payload) =>{
             if(err){
                 res.status(401).json({error: 'Failed, not authorized'})
@@ -22,6 +23,11 @@ async function profile(req, res, next){
     }
 }
 
+function profileRes(req, res){
+    res.json(req.user)
+}
+
 module.exports = {
-    profile
+    profile,
+    profileRes
 };
