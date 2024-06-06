@@ -74,6 +74,15 @@ async function getBusiness(req, res){
   }
 }
 
+async function getAllBusiness(req, res){
+  try {
+    const allBusiness = await knex('business')
+    res.status(201).json(allBusiness)
+  } catch (error) {
+    res.status(500).json("We are sorry, we can't retrieve all business at the moment:", error)
+  }
+}
+
 function emailIsValid(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -86,5 +95,6 @@ function validatePhoneNumber(phoneNumber) {
 
 module.exports = {
   postBusiness,
-  getBusiness
+  getBusiness,
+  getAllBusiness
 };
