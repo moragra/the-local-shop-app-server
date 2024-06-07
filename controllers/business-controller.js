@@ -74,6 +74,20 @@ async function getBusiness(req, res){
   }
 }
 
+async function searchBusiness(req, res){
+  const { shop_name } = req.params
+  try {
+    const business = await knex('business').where('shop_name', shop_name).first()
+    if(!business){
+      return res.status(400).send('Invalid business')
+    } 
+    res.status(201).json(business)
+  } catch (error) {
+    res.status(500).json("We are sorry, we can't retrieve your business at the moment:", error)
+  } 
+
+}
+
 async function getAllBusiness(req, res){
   try {
     const allBusiness = await knex('business')
@@ -96,5 +110,6 @@ function validatePhoneNumber(phoneNumber) {
 module.exports = {
   postBusiness,
   getBusiness,
+  searchBusiness,
   getAllBusiness
 };
