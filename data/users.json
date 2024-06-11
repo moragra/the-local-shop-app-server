@@ -1,7 +1,82 @@
 [
-  {
-    "name": "t",
-    "email": "t@t.com",
-    "password": "$2a$10$LvyaE7DlGl3sFmlxYyyZAu2ujo14G4yhHe3yH3VAOGWJr/e8VmFwC"
-  }
+    {
+      "id": 1,
+      "name": "Alice Johnson",
+      "email": "alice.johnson@example.com",
+      "password": "$2a$10$BYPQCBLTpVn6SJRQLmdsJebQC1/zXJYneL87q4RjKGWqHsy.NcbYe",
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": 2,
+      "name": "Bob Smith",
+      "email": "bob.smith@example.com",
+      "password": "$2a$10$9CGA1CjvjV.ytrlhYUn0YeLz72HGQ9D0O9AEZpERGuPffdKrAtQXa",
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": 3,
+      "name": "Charlie Davis",
+      "email": "charlie.davis@example.com",
+      "password": "$2a$10$JllB43BttjbMkSgx.e986uJBZNS24l1ha4tfGD0hpo.ENskvx77pu",
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": 4,
+      "name": "David Harris",
+      "email": "david.harris@example.com",
+      "password": "$2a$10$ravfv3pjjx/9FkyobI1U.ubb3lGuB2ENYnZN6/SlUdApZ.IeZnPe6",
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": 5,
+      "name": "Ella Martinez",
+      "email": "ella.martinez@example.com",
+      "password": "$2a$10$Vvz13OL.9sIZgsFovdRbDOyQB1voDAUjhykMzUakVtGU5HLeXvUR6",
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": 6,
+      "name": "Fiona White",
+      "email": "fiona.white@example.com",
+      "password": "$2a$10$snt6oCcnrX8eEXaqp7SmN.mKaCtxkUSzIwDPYU2DOrtq16Q6u4/wy",
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": 7,
+      "name": "George Brown",
+      "email": "george.brown@example.com",
+      "password": "$2a$10$0kQPQlOaPLYhwswXbw/9f.SPf4vtoiaErXidHB7ziGz/JRl3ce3Yi",
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": 8,
+      "name": "Hannah Wilson",
+      "email": "hannah.wilson@example.com",
+      "password": "$2a$10$XLrBPH4dDt8VOJb8E0NKEu8eohusw3sSznnYS3fDZj1S6r0WY.cAm",
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": 9,
+      "name": "Ian Moore",
+      "email": "ian.moore@example.com",
+      "password": "$2a$10$BhvMCpQC30Fh/aTyobSCBuBRZCX3l3BGHlLLwje2FJWJAyseVBBq2",
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": 10,
+      "name": "Jack Taylor",
+      "email": "jack.taylor@example.com",
+      "password": "$2a$10$LvQoBUvPNNhQvsJyIPHetuoSbQ1upE29hQ1PAiVJ1cS3Uo9S6.xt2",
+      "created_at": "",
+      "updated_at": ""
+    }
 ]
