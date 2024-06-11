@@ -41,7 +41,19 @@ Create a `.env` file in the root directory and add your environment variables as
 npm run migrate
 ```
 
-### 6. Start the Server
+### 6. Run Seeds Data
+
+First we need to run users, because it has the foreign key (id) for business
+```bash
+npx knex seed:run --specific=users.js 
+```
+Once we have run users data, then we can run business data
+```bash
+npx knex seed:run --specific=business.js
+```
+If you only run npx knex seed:run you will encounter errors because of the dependancy
+
+### 7. Start the Server
 
 ```bash
 npm start
