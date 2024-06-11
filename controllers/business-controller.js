@@ -25,11 +25,6 @@ async function postBusiness(req, res) {
     !phone ||
     !address ||
     !about ||
-    !website_url ||
-    !ig_url ||
-    !fb_url ||
-    !x_url ||
-    !li_url ||
     !consent
   ) {
     res.sendStatus(400);

@@ -17,11 +17,11 @@ exports.up = function(knex) {
         table.string('phone').notNullable()
         table.json('address').notNullable()
         table.string('about').notNullable()
-        table.string('website_url').notNullable()
-        table.string('ig_url').notNullable()
-        table.string('fb_url').notNullable()
-        table.string('x_url').notNullable()
-        table.string('li_url').notNullable()
+        table.string('website_url')
+        table.string('ig_url')
+        table.string('fb_url')
+        table.string('x_url')
+        table.string('li_url')
         table.boolean('consent').notNullable()
         table.timestamp('created_at').defaultTo(knex.fn.now());
         table.timestamp('updated_at').defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
