@@ -4,7 +4,11 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "migrate": "knex migrate:latest"
+    "dev": "nodemon server.js",
+    "migrate": "knex migrate:latest",
+    "seed": "knex seed:run",
+    "seed:users": "knex seed:run --specific=users.js",
+    "seed:business": "knex seed:run --specific=business.js"
   },
   "keywords": [],
   "author": "",
@@ -21,5 +25,8 @@
   },
   "engines": {
     "node": "20.12.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }
