@@ -1,4 +1,4 @@
-const knex = require('knex')(require('../knexfile'));
+const db = require('../db')
 const jwt = require('jsonwebtoken')
 
 // const secret = 
@@ -11,7 +11,7 @@ function profile(req, res, next){
             if(err){
                 res.status(401).json({error: 'Failed, not authorized'})
             } else {
-                const userPwd = await knex('users').where('email', payload.email).first()
+                const userPwd = await db('users').where('email', payload.email).first()
                 const { password, ...user } = userPwd
                 req.user = user
                 next()

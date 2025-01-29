@@ -1,4 +1,4 @@
-const knex = require("knex")(require("../knexfile"));
+const db = require('../db')
 
 async function postBusiness(req, res) {
   const {
@@ -35,7 +35,7 @@ async function postBusiness(req, res) {
     res.sendStatus(400);
   }
 
-  const user = await knex('users').where('id', user_id).first()
+  const user = await db('users').where('id', user_id).first()
   if(!user){
     return res.status(400).send('Invalid user')
   }
@@ -52,8 +52,8 @@ async function postBusiness(req, res) {
   }
 
   try {
-    const business = await knex('business').insert(req.body)
-    const newBusiness = await knex('business').where('id', business[0]).first()
+    const business = await db('business').insert(req.body)
+    const newBusiness = await db('business').where('id', business[0]).first()
     res.status(201).json(newBusiness)
   } catch (error) {
     res.status(500).json("We are sorry, we can't post your business at the moment:", error)
@@ -62,13 +62,14 @@ async function postBusiness(req, res) {
 
 async function getBusiness(req, res){
   const {user_id} = req.params
-  const user = await knex('users').where('id', user_id).first()
+  const user = await db('users').where('id', user_id).first()
   if(!user){
     return res.status(400).send('Invalid user')
   }
   try {
-    const business = await knex('business').where('user_id', user_id).first()
-    res.status(201).json(business)
+    const business = await db('business').where('user_id', user_id).first()
+    const parsedBusiness = business.address ? { ...business, address: JSON.parse(business.address) } : null
+    res.status(201).json(parsedBusiness)
   } catch (error) {
     res.status(500).json("We are sorry, we can't retrieve your business at the moment:", error)
   }
@@ -77,11 +78,12 @@ async function getBusiness(req, res){
 async function searchBusiness(req, res){
   const { shop_name } = req.params
   try {
-    const business = await knex('business').where('shop_name', shop_name).first()
+    const business = await db('business').where('shop_name', shop_name).first()
     if(!business){
       return res.status(400).send('Invalid business')
     } 
-    res.status(201).json(business)
+    const parsedBusiness = business.address ? { ...business, address: JSON.parse(business.address) } : null 
+    res.status(201).json(parsedBusiness)
   } catch (error) {
     res.status(500).json("We are sorry, we can't retrieve your business at the moment:", error)
   } 
@@ -90,8 +92,12 @@ async function searchBusiness(req, res){
 
 async function getAllBusiness(req, res){
   try {
-    const allBusiness = await knex('business')
-    res.status(201).json(allBusiness)
+    const allBusiness = await db('business')
+    const parsedBusiness = allBusiness.map(business => ({
+      ...business,
+      address: business.address ? JSON.parse(business.address) : null
+    }))
+    res.status(201).json(parsedBusiness)
   } catch (error) {
     res.status(500).json("We are sorry, we can't retrieve all business at the moment:", error)
   }
