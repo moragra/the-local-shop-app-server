@@ -5,8 +5,8 @@ const bcrypt = require('bcryptjs')
 async function signUp(req, res){
     const { name, email, password} = req.body
     try {
-        const user = await db('users').where('email', email).first()
-        if(user){
+        const existingUser = await db('users').where('email', email).first()
+        if(existingUser){
             return res.status(400).json({error: 'User with email already exists!'})
         }
         

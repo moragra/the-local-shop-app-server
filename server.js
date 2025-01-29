@@ -1,26 +1,25 @@
 const express = require('express')
-const app = express()
 const cors = require('cors')
 require('dotenv').config()
+const routes = require('./routes/routes')
 
-const allowedOrigins = [
-  'http://localhost:3001',  
-  'https://the-local-shop-app-server.vercel.app', 
-]
+const app = express()
 
+// More specific CORS configuration
 app.use(cors({
-    origin: allowedOrigins,
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+    origin: ['http://localhost:5173', 'https://the-local-shop-app.vercel.app'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
 }))
 
+// Add OPTIONS handling for preflight requests
+app.options('*', cors())
+
 app.use(express.json())
-
-const PORT = process.env.PORT || 3000;
-
-const routes = require('./routes/routes')
 app.use('/', routes)
 
-app.listen(PORT, () =>{
-    console.log(`running at http://localhost:${PORT}`)
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
 })
