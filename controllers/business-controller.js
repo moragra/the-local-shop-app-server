@@ -56,22 +56,26 @@ async function postBusiness(req, res) {
     const newBusiness = await db('business').where('id', business[0]).first()
     res.status(201).json(newBusiness)
   } catch (error) {
-    res.status(500).json("We are sorry, we can't post your business at the moment:", error)
+    res.status(500).json({error: "We are sorry, we can't post your business at the moment:"})
   }
 }
 
-async function getBusiness(req, res){
+async function getBusiness(req, res) {
   const {user_id} = req.params
-  const user = await db('users').where('id', user_id).first()
-  if(!user){
-    return res.status(400).send('Invalid user')
-  }
   try {
+    const user = await db('users').where('id', user_id).first()
+    if(!user) {
+      return res.status(400).send('Invalid user')
+    }
+    
     const business = await db('business').where('user_id', user_id).first()
-    const parsedBusiness = business.address ? { ...business, address: JSON.parse(business.address) } : null
-    res.status(201).json(parsedBusiness)
+    if(!business) {
+      return res.status(404).json({error: "Business not found"})
+    }
+    res.status(200).json(business)
   } catch (error) {
-    res.status(500).json("We are sorry, we can't retrieve your business at the moment:", error)
+    console.error('Error:', error)
+    res.status(500).json({error: "We are sorry, we can't retrieve your business at the moment"})
   }
 }
 
@@ -82,24 +86,20 @@ async function searchBusiness(req, res){
     if(!business){
       return res.status(400).send('Invalid business')
     } 
-    const parsedBusiness = business.address ? { ...business, address: JSON.parse(business.address) } : null 
-    res.status(201).json(parsedBusiness)
+    res.status(201).json(business)
   } catch (error) {
-    res.status(500).json("We are sorry, we can't retrieve your business at the moment:", error)
+    res.status(500).json({error: "We are sorry, we can't retrieve your business at the moment:"})
   } 
 
 }
 
-async function getAllBusiness(req, res){
+async function getAllBusiness(req, res) {
   try {
     const allBusiness = await db('business')
-    const parsedBusiness = allBusiness.map(business => ({
-      ...business,
-      address: business.address ? JSON.parse(business.address) : null
-    }))
-    res.status(201).json(parsedBusiness)
+    res.status(200).json(allBusiness)
   } catch (error) {
-    res.status(500).json("We are sorry, we can't retrieve all business at the moment:", error)
+    console.error('Main error:', error)
+    res.status(500).json({error: "We are sorry, we can't retrieve businesses at the moment"})
   }
 }
 

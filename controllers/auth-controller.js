@@ -13,7 +13,7 @@ async function signUp(req, res){
         await db('users').insert({name, email, password: pwd})
         res.json({sucess: true})
     } catch (error) {
-        res.status(500).json("We are sorry, we can't complete your request at the moment.")
+        res.status(500).json({error: "We are sorry, we can't complete your request at the moment."})
     }
 }
 
@@ -32,7 +32,7 @@ async function login(req, res){
         res.json({token})
         
     } catch (error) {
-        res.status(401).json({error: {message: "Login failed"}})
+        res.status(401).json({error: "Login failed"})
     }
 }
 
