@@ -56,7 +56,26 @@ async function login(req, res){
     }
 }
 
+async function getProfile(req, res) {
+    try {
+        const user = await db('users')
+            .select('id', 'name', 'email')
+            .where('id', req.user.id)
+            .first();
+        
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        
+        res.json(user);
+    } catch (error) {
+        console.error('Profile error:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+}
+
 module.exports = {
     signUp,
-    login
+    login,
+    getProfile
 }

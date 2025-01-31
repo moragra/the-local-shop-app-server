@@ -6,26 +6,25 @@ exports.up = function(knex) {
     return knex.schema
         .createTable('business', (table) => {
             table.increments('id').primary();
-            table
-              .integer('user_id')
+            table.integer('user_id')
               .unsigned()
-              .references('users.id')
-              .onUpdate('CASCADE')
+              .references('id')
+              .inTable('users')
               .onDelete('CASCADE')
-            table.string('shop_name').notNullable()
-            table.string('category').notNullable()
-            table.string('email').notNullable()
-            table.string('phone').notNullable()
-            table.jsonb('address')
-            table.string('about').notNullable()
-            table.string('website_url')
-            table.string('ig_url')
-            table.string('fb_url')
-            table.string('x_url')
-            table.string('li_url')
-            table.boolean('consent').notNullable()
-            table.timestamp('created_at').defaultTo(knex.fn.now())
-            table.timestamp('updated_at').defaultTo(knex.fn.now())
+              .onUpdate('CASCADE');
+            table.string('shop_name').notNullable();
+            table.string('category').notNullable();
+            table.string('email').notNullable();
+            table.string('phone').notNullable();
+            table.jsonb('address').notNullable();
+            table.text('about').notNullable();
+            table.string('website_url');
+            table.string('ig_url');
+            table.string('fb_url');
+            table.string('x_url');
+            table.string('li_url');
+            table.boolean('consent').notNullable();
+            table.timestamps(true, true);
         })
         .then(() => {
             return knex.raw(`

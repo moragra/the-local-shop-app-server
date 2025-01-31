@@ -17,8 +17,13 @@ async function postBusiness(req, res) {
     consent,
   } = req.body;
 
+  console.log('Received user_id:', user_id)
+
+  if (!user_id) {
+    return res.status(400).json({ error: 'User ID is required' })
+  }
+
   if (
-    !user_id,
     !shop_name ||
     !category ||
     !email ||
