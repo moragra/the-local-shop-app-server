@@ -1,21 +1,22 @@
 const db = require('../db')
 const jwt = require('jsonwebtoken')
 
-// const secret = 
-
 function profile(req, res, next){
     const {authorization} = req.headers
     try {
-        if (!authorization) {
-            return res.status(401).json({error: 'No token provided'})
+        if (!authorization || !authorization.startsWith('Bearer ')) {
+            return res.status(401).json({ error: 'Invalid or missing token' });
         }
-
-        const token = authorization.slice("Bearer ".length)
+        const token = authorization.split(' ')[1];
         jwt.verify(token, process.env.SECRET, async (err, payload) =>{
             if(err){
                 res.status(401).json({error: 'Failed, not authorized'})
             } else {
-                req.user = payload
+                const user = await db('users').where({ id: payload.id }).first();
+                if (!user) {
+                    return res.status(404).json({ error: 'User not found' });
+                }
+                req.user = user;
                 next()
             }
         })

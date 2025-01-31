@@ -17,12 +17,13 @@ async function postBusiness(req, res) {
     consent,
   } = req.body;
 
-  console.log('Received user_id:', user_id)
+  // console.log('Received business data:', req.body);
 
   if (!user_id) {
-    return res.status(400).json({ error: 'User ID is required' })
+    return res.status(400).json({ error: 'User ID is required' });
   }
 
+  // Check all required fields
   if (
     !shop_name ||
     !category ||
@@ -37,31 +38,70 @@ async function postBusiness(req, res) {
     !li_url ||
     !consent
   ) {
-    res.sendStatus(400);
-  }
-
-  const user = await db('users').where('id', user_id).first()
-  if(!user){
-    return res.status(400).send('Invalid user')
-  }
-
-  if (email) {
-    if (!emailIsValid(email)) {
-      return res.sendStatus(400);
-    }
-  }
-  if (phone) {
-    if (!validatePhoneNumber(phone)) {
-      return res.sendStatus(400);
-    }
+    return res.status(400).json({ error: 'All fields are required' });
   }
 
   try {
-    const business = await db('business').insert(req.body)
-    const newBusiness = await db('business').where('id', business[0]).first()
-    res.status(201).json(newBusiness)
+    // Reset the sequence before inserting
+    await db.raw('SELECT setval(\'business_id_seq\', (SELECT MAX(id) FROM business))');
+    
+    // First check if user exists
+    const user = await db('users').where('id', user_id).first();
+    if (!user) {
+      return res.status(400).json({ error: 'Invalid user' });
+    }
+
+    // Check if user already has a business
+    const existingBusiness = await db('business').where('user_id', user_id).first();
+    if (existingBusiness) {
+      return res.status(400).json({ error: 'User already has a registered business' });
+    }
+
+    // Validate email and phone
+    if (!emailIsValid(email)) {
+      return res.status(400).json({ error: 'Invalid email format' });
+    }
+
+    if (!validatePhoneNumber(phone)) {
+      return res.status(400).json({ error: 'Invalid phone number format' });
+    }
+
+    // Create business with specific fields only
+    const businessData = {
+      user_id,
+      shop_name,
+      category,
+      email,
+      phone,
+      address: JSON.stringify(address), // Convert address object to JSON string
+      about,
+      website_url,
+      ig_url,
+      fb_url,
+      x_url,
+      li_url,
+      consent: consent === 'on' ? true : false
+    };
+
+    // Insert and get the ID as a number
+    const result = await db('business')
+      .insert(businessData)
+      .returning('id');
+    
+    const businessId = result[0].id; // Access the id property of the first returned object
+    
+    // Fetch the newly created business
+    const newBusiness = await db('business')
+      .where('id', businessId)
+      .first();
+    
+    res.status(201).json(newBusiness);
   } catch (error) {
-    res.status(500).json({error: "We are sorry, we can't post your business at the moment:"})
+    console.error('Error creating business:', error);
+    res.status(500).json({
+      error: "We are sorry, we can't post your business at the moment",
+      details: error.message
+    });
   }
 }
 
